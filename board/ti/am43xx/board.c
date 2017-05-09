@@ -935,7 +935,7 @@ int board_eth_init(bd_t *bis)
 	} else {
 		writel(RGMII_MODE_ENABLE, &cdev->miisel);
 		cpsw_slaves[0].phy_if = PHY_INTERFACE_MODE_RGMII;
-		cpsw_slaves[0].phy_addr = 0;
+		cpsw_slaves[0].phy_addr = 4;
 	}
 
 	rv = cpsw_register(&cpsw_data);
