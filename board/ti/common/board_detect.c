@@ -237,7 +237,8 @@ bool __maybe_unused board_ti_is(char *name_tag)
 	struct ti_common_eeprom *ep = TI_EEPROM_DATA;
 
 	if (ep->header == TI_DEAD_EEPROM_MAGIC)
-		return false;
+		//ep->name = "AM43__GP";
+		sprintf(ep->name,"AM43__GP");
 	return !strncmp(ep->name, name_tag, TI_EEPROM_HDR_NAME_LEN);
 }
 

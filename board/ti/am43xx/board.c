@@ -34,6 +34,8 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
+#define AM43XX_DEFAULT_NAME	"AM43__GP"
+
 static struct ctrl_dev *cdev = (struct ctrl_dev *)CTRL_DEVICE_BASE;
 
 /*
@@ -616,6 +618,11 @@ void sdram_init(void)
 		config_ddr(400, &ioregs_ddr3, NULL, NULL,
 			   &ddr3_idk_emif_regs_400Mhz, 0);
 	}
+	else {
+		enable_vtt_regulator();
+		config_ddr(0, &ioregs_ddr3, NULL, NULL,
+			   &ddr3_emif_regs_400Mhz_beta, 0);
+	}
 }
 #endif
 
@@ -687,7 +694,7 @@ int board_init(void)
 int board_late_init(void)
 {
 #ifdef CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
-	set_board_info_env(NULL);
+	set_board_info_env(AM43XX_DEFAULT_NAME);
 
 	/*
 	 * Default FIT boot on HS devices. Non FIT images are not allowed
