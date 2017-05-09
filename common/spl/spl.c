@@ -327,6 +327,9 @@ static int spl_load_image(u32 boot_device)
 #endif
 #ifdef CONFIG_SPL_NAND_SUPPORT
 	case BOOT_DEVICE_NAND:
+#ifdef CONFIG_SPL_NANDI2C_SUPPORT
+	case BOOT_DEVICE_NANDI2C:
+#endif
 		return spl_nand_load_image();
 #endif
 #ifdef CONFIG_SPL_ONENAND_SUPPORT
