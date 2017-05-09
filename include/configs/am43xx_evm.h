@@ -388,6 +388,7 @@
 #define CONFIG_SYS_NAND_U_BOOT_OFFS	0x00180000
 /* NAND: SPL related configs */
 #ifdef CONFIG_SPL_NAND_SUPPORT
+#define CONFIG_SPL_NANDI2C_SUPPORT
 #define CONFIG_SPL_NAND_AM33XX_BCH
 #endif
 /* NAND: SPL falcon mode configs */
