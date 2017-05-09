@@ -74,6 +74,16 @@ static struct module_pin_mux gpio5_7_pin_mux[] = {
 	{-1},
 };
 
+static struct module_pin_mux gpio5_8_pin_mux[] = {
+	{0xa38,(MODE(7) | PULLUP_EN)},	/* GPIO5_8 */
+	{-1},
+};
+
+static struct module_pin_mux gpio5_9_pin_mux[] = {
+	{0xa3c,(MODE(7) | PULLUP_EN)},	/* GPIO5_9 */
+	{-1},
+};
+
 #ifdef CONFIG_NAND
 static struct module_pin_mux nand_pin_mux[] = {
 	{OFFSET(gpmc_ad0),	(MODE(0) | PULLUDDIS | RXACTIVE)}, /* AD0 */
@@ -128,6 +138,8 @@ void enable_board_pin_mux(void)
 
 	if (board_is_evm()) {
 		configure_module_pin_mux(gpio5_7_pin_mux);
+		configure_module_pin_mux(gpio5_8_pin_mux);
+		configure_module_pin_mux(gpio5_9_pin_mux);
 		configure_module_pin_mux(rgmii1_pin_mux);
 #if defined(CONFIG_NAND)
 		configure_module_pin_mux(nand_pin_mux);

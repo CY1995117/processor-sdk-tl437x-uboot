@@ -25,6 +25,7 @@
 #include <asm/io.h>
 #include <asm/emif.h>
 #include <asm/gpio.h>
+#include <asm/omap_gpio.h>
 #include <i2c.h>
 #include <miiphy.h>
 #include <cpsw.h>
@@ -224,6 +225,8 @@ int arch_misc_init(void)
 #endif
 	return 0;
 }
+
+#define GPIO_LED_SOM_D2	(5*32+8)
 
 #ifndef CONFIG_SKIP_LOWLEVEL_INIT
 
@@ -425,6 +428,8 @@ void early_system_init(void)
 #ifdef CONFIG_SPL_BUILD
 void board_init_f(ulong dummy)
 {
+	int ret;
+
 	early_system_init();
 	board_early_init_f();
 	sdram_init();
@@ -432,6 +437,11 @@ void board_init_f(ulong dummy)
 	gd->ram_size = get_ram_size(
 			(void *)CONFIG_SYS_SDRAM_BASE,
 			CONFIG_MAX_RAM_BANK_SIZE);
+
+	/* LED_SOM_D2 is indicator for SPL to worl on TL437x board */
+	ret = gpio_direction_output(GPIO_LED_SOM_D2,1);
+	if(ret < 0)
+		printf("LED_SOM_D2 function is error! \n");
 }
 #endif
 

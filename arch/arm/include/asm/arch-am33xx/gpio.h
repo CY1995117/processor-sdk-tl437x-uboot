@@ -9,7 +9,7 @@
 #ifdef CONFIG_AM43XX
 #define OMAP_MAX_GPIO		192
 #else
-#define OMAP_MAX_GPIO		128
+#define OMAP_MAX_GPIO		(6 * 32)
 #endif
 
 #define AM33XX_GPIO0_BASE       0x44E07000

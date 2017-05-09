@@ -19,6 +19,8 @@
 #include <asm/arch/mux.h>
 #include <asm/arch/ddr_defs.h>
 #include <asm/arch/gpio.h>
+#include <asm/gpio.h>
+#include <asm/omap_gpio.h>
 #include <asm/emif.h>
 #include "../common/board_detect.h"
 #include "board.h"
@@ -626,6 +628,8 @@ void sdram_init(void)
 }
 #endif
 
+#define GPIO_LED_SOM_D1	(5*32+9)
+
 /* setup board specific PMIC */
 int power_init_board(void)
 {
@@ -651,6 +655,8 @@ int board_init(void)
 	struct l3f_cfg_bwlimiter *bwlimiter = (struct l3f_cfg_bwlimiter *)L3F_CFG_BWLIMITER;
 	u32 mreqprio_0, mreqprio_1, modena_init0_bw_fractional,
 	    modena_init0_bw_integer, modena_init0_watermark_0;
+
+	int ret;
 
 	gd->bd->bi_boot_params = CONFIG_SYS_SDRAM_BASE + 0x100;
 	gpmc_init();
@@ -687,6 +693,11 @@ int board_init(void)
 	writel(modena_init0_bw_integer, &bwlimiter->modena_init0_bw_integer);
 	writel(modena_init0_watermark_0, &bwlimiter->modena_init0_watermark_0);
 
+
+	/* LED_SOM_D1 is indicator for U-BOOT for tl437x board */
+	ret = gpio_direction_output(GPIO_LED_SOM_D1,1);
+	if(ret < 0)
+		printf("LED_SOM_D1 function error! \n");
 	return 0;
 }
 
