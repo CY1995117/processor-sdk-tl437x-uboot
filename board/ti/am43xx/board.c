@@ -650,13 +650,23 @@ int power_init_board(void)
 	return 0;
 }
 
+void set_GPIO5_9(void)
+{
+	u32 l;
+
+	/* LED_SOM_D1 is indicator for U-BOOT for tl437x board */
+        l = 1 << (GPIO_LED_SOM_D1 & 0x1f);
+        __raw_writel(l,0x48322194);
+        l = __raw_readl(0x48322134);
+        l &= ~(1 << (GPIO_LED_SOM_D1 & 0x1f));
+        __raw_writel(l,0x48322134);
+
+}
 int board_init(void)
 {
 	struct l3f_cfg_bwlimiter *bwlimiter = (struct l3f_cfg_bwlimiter *)L3F_CFG_BWLIMITER;
 	u32 mreqprio_0, mreqprio_1, modena_init0_bw_fractional,
 	    modena_init0_bw_integer, modena_init0_watermark_0;
-
-	int ret;
 
 	gd->bd->bi_boot_params = CONFIG_SYS_SDRAM_BASE + 0x100;
 	gpmc_init();
@@ -693,11 +703,8 @@ int board_init(void)
 	writel(modena_init0_bw_integer, &bwlimiter->modena_init0_bw_integer);
 	writel(modena_init0_watermark_0, &bwlimiter->modena_init0_watermark_0);
 
+	set_GPIO5_9();
 
-	/* LED_SOM_D1 is indicator for U-BOOT for tl437x board */
-	ret = gpio_direction_output(GPIO_LED_SOM_D1,1);
-	if(ret < 0)
-		printf("LED_SOM_D1 function error! \n");
 	return 0;
 }
 
